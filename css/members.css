@@ -1,0 +1,20 @@
+.container {
+  width: 960px;
+  margin: auto;
+}
+.flex {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+/* table {
+  width: 300px;
+} */
+th {
+  font-weight: normal;
+}
+.members_name {
+  font-weight: bold;
+  font-size: 130%;
+}

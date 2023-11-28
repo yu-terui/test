@@ -1,0 +1,47 @@
+body {
+  background: lightblue;
+}
+a {
+  list-style-type: none;
+  text-decoration: none;
+}
+.login_content {
+  width: 500px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+.login_inner {
+  text-align: center;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+.login_id,
+.login_pass {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.login_id p,
+.login_pass p {
+  width: 100px;
+}
+.login_id input,
+.login_pass input {
+  width: 300px;
+  padding: 10px;
+  margin:10px;
+}
+.login_btn {
+  margin-top: 10px;
+  background: seagreen;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.login_btn a {
+  color: white;
+  display: block;
+  padding:10px 20px;
+}
