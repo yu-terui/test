@@ -108,5 +108,18 @@ register_btn.addEventListener("click", function (event) {
   }
   let input_date = document.getElementById("form_input_date");
   let value_date = input_date.value;
-  text_date.textContent = value_date;
+  let date = new Date(value_date);
+  date.setDate(date.getDate());
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  console.log(year + "年" + month + "月" + day + "日");
+  let input_birthday = document.getElementById("form_input_birthday");
+  let value_birthday = input_birthday.value;
+  let birthday = new Date(value_birthday);
+  birthday.setDate(birthday.getDate());
+  let birthday_year = birthday.getFullYear();
+  let birthday_month = birthday.getMonth() + 1;
+  let birthday_day = birthday.getDate();
+  console.log(birthday_year + "年" + birthday_month + "月" + birthday_day + "日");
 });
