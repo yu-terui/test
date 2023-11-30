@@ -36,13 +36,13 @@ a {
   border: 1px solid #333;
   border-radius: 3px;
 }
-#btn {
+#login_btn {
   margin-top: 10px;
   background: seagreen;
   border: 1px solid #ccc;
   border-radius: 3px;
 }
-#btn a {
+#login_btn a {
   color: white;
   display: block;
   padding:10px 20px;
