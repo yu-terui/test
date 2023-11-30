@@ -19,28 +19,30 @@ a {
   border-radius: 10px;
 }
 .login_id,
-.login_pass {
+.login_password {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.login_id p,
-.login_pass p {
-  width: 100px;
+.login_id p:first-of-type,
+.login_password p:first-of-type {
+  width: 150px;
 }
-.login_id input,
-.login_pass input {
-  width: 300px;
+#id_box,
+#password_box {
+  width: 400px;
   padding: 10px;
   margin:10px;
+  border: 1px solid #333;
+  border-radius: 3px;
 }
-.login_btn {
+#btn {
   margin-top: 10px;
   background: seagreen;
   border: 1px solid #ccc;
   border-radius: 3px;
 }
-.login_btn a {
+#btn a {
   color: white;
   display: block;
   padding:10px 20px;
