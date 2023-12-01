@@ -13,8 +13,8 @@ p {
 .flex {
   display: flex;
   justify-content: space-around;
-  border-bottom: 1px solid #ccc;
   padding: 10px;
+  border-top: 1px solid #ccc;
 }
 th {
   font-weight: normal;
