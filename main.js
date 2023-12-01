@@ -29,7 +29,7 @@
 //     password_box.style.borderColor = "#333";
 //   }
 // });
-//値の取得
+//idの取得
 let text_name = document.getElementById("form_text_name");
 let text_hiragana = document.getElementById("form_text_hiragana");
 let text_date = document.getElementById("form_text_date");
@@ -40,8 +40,56 @@ let text_address = document.getElementById("form_text_address");
 let text_number = document.getElementById("form_text_number");
 let register_btn = document.getElementById("register_btn");
 
-//登録ボタンをクリックした時の動き
+//生年月日
+let input_birthday = document.getElementById("form_input_birthday");
+let value_birthday = input_birthday.value;
+//カレンダーで取得した値の形式変更（誕生日）
+let birthday = new Date(value_birthday);
+birthday.setDate(birthday.getDate());
+let birthday_year = birthday.getFullYear();
+let birthday_month = birthday.getMonth() + 1;
+let birthday_day = birthday.getDate();
+//生年月日から年齢を算出
+//チェンジイベント発生時に算出した年齢をテキストボックスに吐き出す
+input_birthday.addEventListener("change", function () {
+  let today = new Date();
+  let current_year_birthday = new Date(
+    today.getFullYear(),
+    birthday_month - 1,
+    birthday_day
+  );
+  let age = today.getFullYear() - birthday_year;
+  if (today < current_year_birthday) {
+    age--;
+  }
+  document.getElementById("form_input_age").value = age;
+});
+
+// 登録ボタンをクリックした時の動き
 register_btn.addEventListener("click", function (event) {
+  //生年月日
+  // let input_birthday = document.getElementById("form_input_birthday");
+  // let value_birthday = input_birthday.value;
+  // //カレンダーで取得した値の形式変更（誕生日）
+  // let birthday = new Date(value_birthday);
+  // birthday.setDate(birthday.getDate());
+  // let birthday_year = birthday.getFullYear();
+  // let birthday_month = birthday.getMonth() + 1;
+  //   let birthday_day = birthday.getDate();
+  // //生年月日から年齢を算出
+  // //チェンジイベント発生時に算出した年齢をテキストボックスに吐き出す
+  // let today = new Date();
+  // let current_year_birthday = new Date(
+  //   today.getFullYear(),
+  //   birthday_month-1,
+  //   birthday_day
+  // );
+  // let age = today.getFullYear() - birthday_year;
+  // if (today < current_year_birthday) {
+  //   age--;
+  //   }
+  // document.getElementById("form_input_age").value = age;
+
   //名前
   let input_name = document.getElementById("form_input_name");
   let value_name = input_name.value;
@@ -86,31 +134,6 @@ register_btn.addEventListener("click", function (event) {
     text_department.textContent = "";
     input_department.style.borderColor = "#333";
   }
-
-  //生年月日
-  let input_birthday = document.getElementById("form_input_birthday");
-  let value_birthday = input_birthday.value;
-  //カレンダーで取得した値の形式変更（誕生日）
-  let birthday = new Date(value_birthday);
-  birthday.setDate(birthday.getDate());
-  let birthday_year = birthday.getFullYear();
-  let birthday_month = birthday.getMonth() + 1;
-  let birthday_day = birthday.getDate();
-  //生年月日から年齢を算出
-  //チェンジイベント発生時に算出した年齢をテキストボックスに吐き出す
-  input_birthday.addEventListener('change', function () {
-    let today = new Date();
-    let current_year_birthday = new Date(
-      today.getFullYear(),
-      birthday_month,
-      birthday_day
-    );
-    let age = today.getFullYear() - birthday_year;
-    if (today < current_year_birthday) {
-      age--;
-    }
-    document.getElementById("form_input_age").value = age;
-  });
   //年齢
   let input_age = document.getElementById("form_input_age");
   let value_age = input_age.value;
