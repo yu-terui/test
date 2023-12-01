@@ -42,16 +42,16 @@ let register_btn = document.getElementById("register_btn");
 
 //生年月日
 let input_birthday = document.getElementById("form_input_birthday");
-let value_birthday = input_birthday.value;
-//カレンダーで取得した値の形式変更（誕生日）
-let birthday = new Date(value_birthday);
-birthday.setDate(birthday.getDate());
-let birthday_year = birthday.getFullYear();
-let birthday_month = birthday.getMonth() + 1;
-let birthday_day = birthday.getDate();
 //生年月日から年齢を算出
 //チェンジイベント発生時に算出した年齢をテキストボックスに吐き出す
 input_birthday.addEventListener("change", function () {
+  let value_birthday = input_birthday.value;
+  //カレンダーで取得した値の形式変更（誕生日）
+  let birthday = new Date(value_birthday);
+  birthday.setDate(birthday.getDate());
+  let birthday_year = birthday.getFullYear();
+  let birthday_month = birthday.getMonth() + 1;
+  let birthday_day = birthday.getDate();
   let today = new Date();
   let current_year_birthday = new Date(
     today.getFullYear(),
@@ -67,29 +67,6 @@ input_birthday.addEventListener("change", function () {
 
 // 登録ボタンをクリックした時の動き
 register_btn.addEventListener("click", function (event) {
-  //生年月日
-  // let input_birthday = document.getElementById("form_input_birthday");
-  // let value_birthday = input_birthday.value;
-  // //カレンダーで取得した値の形式変更（誕生日）
-  // let birthday = new Date(value_birthday);
-  // birthday.setDate(birthday.getDate());
-  // let birthday_year = birthday.getFullYear();
-  // let birthday_month = birthday.getMonth() + 1;
-  //   let birthday_day = birthday.getDate();
-  // //生年月日から年齢を算出
-  // //チェンジイベント発生時に算出した年齢をテキストボックスに吐き出す
-  // let today = new Date();
-  // let current_year_birthday = new Date(
-  //   today.getFullYear(),
-  //   birthday_month-1,
-  //   birthday_day
-  // );
-  // let age = today.getFullYear() - birthday_year;
-  // if (today < current_year_birthday) {
-  //   age--;
-  //   }
-  // document.getElementById("form_input_age").value = age;
-
   //名前
   let input_name = document.getElementById("form_input_name");
   let value_name = input_name.value;
@@ -201,6 +178,13 @@ register_btn.addEventListener("click", function (event) {
     "</tr>";
   table1_object.insertAdjacentHTML("beforeend", tr1);
   //右側のtable2に、登録ボタンを押すと取得した値代入
+  //カレンダーで取得した値の形式変更（誕生日）
+  let value_birthday = input_birthday.value;
+  let birthday = new Date(value_birthday);
+  birthday.setDate(birthday.getDate());
+  let birthday_year = birthday.getFullYear();
+  let birthday_month = birthday.getMonth() + 1;
+  let birthday_day = birthday.getDate();
   let tr2 = "<tr>";
   let table2_object = document.getElementById("table2");
   tr2 +=
