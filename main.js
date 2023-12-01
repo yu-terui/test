@@ -66,6 +66,14 @@ register_btn.addEventListener("click", function (event) {
     text_hiragana.textContent = "";
     input_hiragana.style.borderColor = "#333";
   }
+  //カレンダーで取得した値の形式変更（入社日）
+  let input_date = document.getElementById("form_input_date");
+  let value_date = input_date.value;
+  let date = new Date(value_date);
+  date.setDate(date.getDate());
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
   //所属部署
   let input_department = document.getElementById("form_input_department");
   let value_department = input_department.value;
@@ -78,6 +86,31 @@ register_btn.addEventListener("click", function (event) {
     text_department.textContent = "";
     input_department.style.borderColor = "#333";
   }
+
+  //生年月日
+  let input_birthday = document.getElementById("form_input_birthday");
+  let value_birthday = input_birthday.value;
+  //カレンダーで取得した値の形式変更（誕生日）
+  let birthday = new Date(value_birthday);
+  birthday.setDate(birthday.getDate());
+  let birthday_year = birthday.getFullYear();
+  let birthday_month = birthday.getMonth() + 1;
+  let birthday_day = birthday.getDate();
+  //生年月日から年齢を算出
+  //チェンジイベント発生時に算出した年齢をテキストボックスに吐き出す
+  input_birthday.addEventListener('change', function () {
+    let today = new Date();
+    let current_year_birthday = new Date(
+      today.getFullYear(),
+      birthday_month,
+      birthday_day
+    );
+    let age = today.getFullYear() - birthday_year;
+    if (today < current_year_birthday) {
+      age--;
+    }
+    document.getElementById("form_input_age").value = age;
+  });
   //年齢
   let input_age = document.getElementById("form_input_age");
   let value_age = input_age.value;
@@ -114,39 +147,52 @@ register_btn.addEventListener("click", function (event) {
     text_number.textContent = "";
     input_number.style.borderColor = "#333";
   }
-  //カレンダーで取得した値の形式変更（入社日）
-  let input_date = document.getElementById("form_input_date");
-  let value_date = input_date.value;
-  let date = new Date(value_date);
-  date.setDate(date.getDate());
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-  //カレンダーで取得した値の形式変更（誕生日）
-  let input_birthday = document.getElementById("form_input_birthday");
-  let value_birthday = input_birthday.value;
-  let birthday = new Date(value_birthday);
-  birthday.setDate(birthday.getDate());
-  let birthday_year = birthday.getFullYear();
-  let birthday_month = birthday.getMonth() + 1;
-  let birthday_day = birthday.getDate();
-  //アイコン画像を挿入
+
+  // 登録ボタンを押してリストに情報を追加
+  // アイコン画像を挿入
   let icon = document.getElementById("icon");
-    icon.insertAdjacentHTML("beforeend", `<img src="./img/icon.png" width="200" height="200" alt="アイコン画像">`);
+  icon.insertAdjacentHTML(
+    "beforeend",
+    `<img src="./img/icon.png" width="200" height="200" alt="アイコン画像">`
+  );
   //左側のtable1に、登録ボタンを押すと取得した値代入
   let tr1 = "<tr>";
-  let table1_object = document.getElementById( "table1" );
-  tr1 += "<th>"+"社員名:"+"</th>"+"<td>" + value_name + "</td>"+"</tr>";
-  tr1 += "<th>"+""+"</th>"+"<td>" + value_hiragana + "</td>"+"</tr>";
-  tr1 += "<th>"+"入社日:"+"</th>"+"<td>" + (year + "年" + month + "月" + day + "日") + "</td>"+"</tr>";
-  tr1 += "<th>"+"所属部署:"+"</th>"+"<td>" + value_department + "</td>"+"</tr>";
+  let table1_object = document.getElementById("table1");
+  tr1 += "<th>" + "社員名:" + "</th>" + "<td>" + value_name + "</td>" + "</tr>";
+  tr1 += "<th>" + "" + "</th>" + "<td>" + value_hiragana + "</td>" + "</tr>";
+  tr1 +=
+    "<th>" +
+    "入社日:" +
+    "</th>" +
+    "<td>" +
+    (year + "年" + month + "月" + day + "日") +
+    "</td>" +
+    "</tr>";
+  tr1 +=
+    "<th>" +
+    "所属部署:" +
+    "</th>" +
+    "<td>" +
+    value_department +
+    "</td>" +
+    "</tr>";
   table1_object.insertAdjacentHTML("beforeend", tr1);
   //右側のtable2に、登録ボタンを押すと取得した値代入
   let tr2 = "<tr>";
-  let table2_object = document.getElementById( "table2" );
-  tr2 += "<th>"+"生年月日:"+"</th>"+"<td>" + (birthday_year + "年" + birthday_month + "月" + birthday_day + "日") + "</td>"+"</tr>";
-  tr2 += "<th>"+"年齢:"+"</th>"+"<td>" + value_age + "歳" + "</td>"+"</tr>";
-  tr2 += "<th>"+"住所:"+"</th>"+"<td>" + value_address + "</td>"+"</tr>";
-  tr2 += "<th>"+"電話番号:"+"</th>"+"<td>" + value_number + "</td>"+"</tr>";
-  table2_object.insertAdjacentHTML( "beforeend", tr2 );
+  let table2_object = document.getElementById("table2");
+  tr2 +=
+    "<th>" +
+    "生年月日:" +
+    "</th>" +
+    "<td>" +
+    (birthday_year + "年" + birthday_month + "月" + birthday_day + "日") +
+    "</td>" +
+    "</tr>";
+  tr2 +=
+    "<th>" + "年齢:" + "</th>" + "<td>" + value_age + "歳" + "</td>" + "</tr>";
+  tr2 +=
+    "<th>" + "住所:" + "</th>" + "<td>" + value_address + "</td>" + "</tr>";
+  tr2 +=
+    "<th>" + "電話番号:" + "</th>" + "<td>" + value_number + "</td>" + "</tr>";
+  table2_object.insertAdjacentHTML("beforeend", tr2);
 });
