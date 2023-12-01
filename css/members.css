@@ -2,19 +2,57 @@
   width: 960px;
   margin: auto;
 }
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
+}
+p {
+  margin-bottom: 0;
+}
 .flex {
   display: flex;
   justify-content: space-around;
-  border-bottom: 1px solid #ccc;
   padding: 10px;
+  border-top: 1px solid #ccc;
 }
-/* table {
-  width: 300px;
-} */
 th {
   font-weight: normal;
 }
 .members_name {
   font-weight: bold;
   font-size: 130%;
+}
+#form {
+  width: 70%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+#form_head {
+  font-size: 120%;
+}
+#form .form_label {
+  text-align: left;
+}
+#form .form_box {
+  margin-bottom: 20px;
+}
+#form input {
+  display: block;
+  margin: auto;
+  width: 100%;
+  border: 1px solid #333;
+  border-radius: 3px;
+}
+#form #register_btn {
+  padding: 10px 20px;
+  color: #fff;
+  background: seagreen;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+#form #register_btn:hover {
+  opacity: 0.7;
 }
