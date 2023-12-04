@@ -204,168 +204,236 @@ register_btn.addEventListener("click", function (event) {
   table2_object.insertAdjacentHTML("beforeend", tr2);
 });
 
-fetch("./webapi.json") //リクエスト送信
-  .then((response) => response.json()) //レスポンスデータを取得
-  .then((data) => {
-    //変数dataにデータをセット
-    const dataAsString = JSON.stringify(data); //オブジェクトをjsonにエンコード
-    data.forEach((user) => {
-      //sort_btnを押したとき、selectの値に応じて並び替え
-      let sort_btn = document.getElementById("sort_btn");
-      let select = document.querySelector('[name="select_sort"]');
-      select.onchange = (event) => {
-        //名前・昇順
-        sort_btn.addEventListener("click", function () {
-          if (select.selectedIndex == 1) {
-            function compare(a, b) {
-              let r = 0;
-              if (a.furigana < b.furigana) {
-                r = -1;
-              } else if (a.furigana > b.furigana) {
-                r = 1;
-              }
-              return r;
-            }
-            data.sort(compare);
-            console.log(data);
-            // icon画像の配置
-            let icon = document.getElementById("icon");
-            let contents = document.getElementById("contents");
-            //リスト追加
-            let flex = `<div class="flex">`;
-            flex += `
-          <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
-          <table>
-          <th>社員名:</th><td>${user.employee_name}</td></tr>
-          <th></th><td>${user.furigana}</td></tr>
-          <th>入社日:</th><td>${user.hire_date}</td></tr>
-          <th>所属部署:</th><td>${user.department}</td></tr>
-          </table>
-          <table>
-          <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
-          <th>年齢:</th><td>${user.age}歳</td></tr>
-          <th>住所:</th><td>${user.address}</td></tr>
-          <th>電話番号:</th><td>${user.phone_number}</td></tr>
-          </table>
-          </div>
-          `;
-            contents.insertAdjacentHTML("beforeend", flex);
-          }
-        });
-        //名前・降順
-        sort_btn.addEventListener("click", function () {
-          if (select.selectedIndex == 2) {
-            function compare(a, b) {
-              let r = 0;
-              if (a.furigana < b.furigana) {
-                r = 1;
-              } else if (a.furigana > b.furigana) {
-                r = -1;
-              }
-              return r;
-            }
-            data.sort(compare);
-            console.log(data);
-            // icon画像の配置
-            let icon = document.getElementById("icon");
-            let contents = document.getElementById("contents");
-            //リスト追加
-            let flex = `<div class="flex">`;
-            flex += `
-          <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
-          <table>
-          <th>社員名:</th><td>${user.employee_name}</td></tr>
-          <th></th><td>${user.furigana}</td></tr>
-          <th>入社日:</th><td>${user.hire_date}</td></tr>
-          <th>所属部署:</th><td>${user.department}</td></tr>
-          </table>
-          <table>
-          <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
-          <th>年齢:</th><td>${user.age}歳</td></tr>
-          <th>住所:</th><td>${user.address}</td></tr>
-          <th>電話番号:</th><td>${user.phone_number}</td></tr>
-          </table>
-          </div>
-          `;
-            contents.insertAdjacentHTML("beforeend", flex);
-          }
-        });
-        //年齢・昇順
-        sort_btn.addEventListener("click", function () {
-          if (select.selectedIndex == 3) {
-            function compare(a, b) {
-              let r = 0;
-              if (a.age < b.age) {
-                r = -1;
-              } else if (a.age > b.age) {
-                r = 1;
-              }
-              return r;
-            }
-            data.sort(compare);
-            console.log(data);
-            // icon画像の配置
-            let icon = document.getElementById("icon");
-            let contents = document.getElementById("contents");
-            //リスト追加
-            let flex = `<div class="flex">`;
-            flex += `
-          <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
-          <table>
-          <th>社員名:</th><td>${user.employee_name}</td></tr>
-          <th></th><td>${user.furigana}</td></tr>
-          <th>入社日:</th><td>${user.hire_date}</td></tr>
-          <th>所属部署:</th><td>${user.department}</td></tr>
-          </table>
-          <table>
-          <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
-          <th>年齢:</th><td>${user.age}歳</td></tr>
-          <th>住所:</th><td>${user.address}</td></tr>
-          <th>電話番号:</th><td>${user.phone_number}</td></tr>
-          </table>
-          </div>
-          `;
-            contents.insertAdjacentHTML("beforeend", flex);
-          }
-        });
-        //年齢・降順
-        sort_btn.addEventListener("click", function () {
-          if (select.selectedIndex == 4) {
-            function compare(a, b) {
-              let r = 0;
-              if (a.age < b.age) {
-                r = 1;
-              } else if (a.age > b.age) {
-                r = -1;
-              }
-              return r;
-            }
-            data.sort(compare);
-            console.log(data);
-            // icon画像の配置
-            let icon = document.getElementById("icon");
-            let contents = document.getElementById("contents");
-            //リスト追加
-            let flex = `<div class="flex">`;
-            flex += `
-          <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
-          <table>
-          <th>社員名:</th><td>${user.employee_name}</td></tr>
-          <th></th><td>${user.furigana}</td></tr>
-          <th>入社日:</th><td>${user.hire_date}</td></tr>
-          <th>所属部署:</th><td>${user.department}</td></tr>
-          </table>
-          <table>
-          <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
-          <th>年齢:</th><td>${user.age}歳</td></tr>
-          <th>住所:</th><td>${user.address}</td></tr>
-          <th>電話番号:</th><td>${user.phone_number}</td></tr>
-          </table>
-          </div>
-          `;
-            contents.insertAdjacentHTML("beforeend", flex);
-          }
-        });
-      };
-    });
+// async function callApi(){
+// const res = await fetch("./webapi.json");//リクエスト送信
+// //（情報テキストを突っ込む・コールバック関数が絡む情報）
+// const users = await res.json();
+// return users;
+// }
+// let sort_btn = document.getElementById("sort_btn");
+// sort_btn.addEventListener('click',test);
+// async function test(){
+// const users = await callApi();
+// console.log(users);
+// users.forEach(function (element) {
+//   console.log(element.name);
+// })
+// }
+
+async function callApi() {
+  //関数のfunction宣言の前にasyncを書いて非同期（async）関数であることを宣言
+  const res = await fetch("./webapi.json");
+  //変数resにawaitを書くことで非同期通信が終わった後にfetch()メソッド（引数はurl）を実行。
+  const users = await res.json();
+  // 変数jsonにawaitを書くことで非同期通信が終わった後にres.json()を実行
+  return users;
+}
+//sort_btnを押したとき、selectの値に応じて並び替え
+//名前・昇順
+let sort_btn = document.getElementById("sort_btn");
+sort_btn.addEventListener("click", test);
+async function test() {
+  const users = await callApi();
+  users.forEach(function (element) {
+    let select = document.querySelector('[name="select_sort"]');
+    //名前・昇順
+    if (select.selectedIndex == 1) {
+      function compare(a, b) {
+        let r = 0;
+        if (a.furigana < b.furigana) {
+          r = -1;
+        } else if (a.furigana > b.furigana) {
+          r = 1;
+        }
+        return r;
+      }
+      users.sort(compare);
+      console.log(element.furigana);
+    }
+    // 名前・降順
+    if (select.selectedIndex == 2) {
+      function compare(a, b) {
+        let r = 0;
+        if (a.furigana < b.furigana) {
+          r = 1;
+        } else if (a.furigana > b.furigana) {
+          r = -1;
+        }
+        return r;
+      }
+      users.sort(compare);
+      console.log(element.furigana);
+    }
+    //年齢・昇順
+    if (select.selectedIndex == 3) {
+      function compare(a, b) {
+        let r = 0;
+        if (a.age < b.age) {
+          r = -1;
+        } else if (a.age > b.age) {
+          r = 1;
+        }
+        return r;
+      }
+      users.sort(compare);
+      console.log(element.age);
+    }
+    //年齢・降順
+    if (select.selectedIndex == 4) {
+      function compare(a, b) {
+        let r = 0;
+        if (a.age < b.age) {
+          r = 1;
+        } else if (a.age > b.age) {
+          r = -1;
+        }
+        return r;
+      }
+      users.sort(compare);
+      console.log(element.age);
+    }
   });
+}
+
+
+//           // icon画像の配置
+//           let icon = document.getElementById("icon");
+//           let contents = document.getElementById("contents");
+//           //リスト追加
+//           let flex = `<div class="flex">`;
+//           flex += `
+//         <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+//         <table>
+//         <th>社員名:</th><td>${user.employee_name}</td></tr>
+//         <th></th><td>${user.furigana}</td></tr>
+//         <th>入社日:</th><td>${user.hire_date}</td></tr>
+//         <th>所属部署:</th><td>${user.department}</td></tr>
+//         </table>
+//         <table>
+//         <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
+//         <th>年齢:</th><td>${user.age}歳</td></tr>
+//         <th>住所:</th><td>${user.address}</td></tr>
+//         <th>電話番号:</th><td>${user.phone_number}</td></tr>
+//         </table>
+//         </div>
+//         `;
+//           contents.insertAdjacentHTML("beforeend", flex);
+//         }
+//       });
+//       //名前・降順
+//       sort_btn.addEventListener("click", function () {
+//         if (select.selectedIndex == 2) {
+//           function compare(a, b) {
+//             let r = 0;
+//             if (a.furigana < b.furigana) {
+//               r = 1;
+//             } else if (a.furigana > b.furigana) {
+//               r = -1;
+//             }
+//             return r;
+//           }
+//           data.sort(compare);
+//           console.log(data);
+//           // icon画像の配置
+//           let icon = document.getElementById("icon");
+//           let contents = document.getElementById("contents");
+//           //リスト追加
+//           let flex = `<div class="flex">`;
+//           flex += `
+//         <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+//         <table>
+//         <th>社員名:</th><td>${user.employee_name}</td></tr>
+//         <th></th><td>${user.furigana}</td></tr>
+//         <th>入社日:</th><td>${user.hire_date}</td></tr>
+//         <th>所属部署:</th><td>${user.department}</td></tr>
+//         </table>
+//         <table>
+//         <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
+//         <th>年齢:</th><td>${user.age}歳</td></tr>
+//         <th>住所:</th><td>${user.address}</td></tr>
+//         <th>電話番号:</th><td>${user.phone_number}</td></tr>
+//         </table>
+//         </div>
+//         `;
+//           contents.insertAdjacentHTML("beforeend", flex);
+//         }
+//       });
+//       //年齢・昇順
+//       sort_btn.addEventListener("click", function () {
+//         if (select.selectedIndex == 3) {
+//           function compare(a, b) {
+//             let r = 0;
+//             if (a.age < b.age) {
+//               r = -1;
+//             } else if (a.age > b.age) {
+//               r = 1;
+//             }
+//             return r;
+//           }
+//           data.sort(compare);
+//           console.log(data);
+//           // icon画像の配置
+//           let icon = document.getElementById("icon");
+//           let contents = document.getElementById("contents");
+//           //リスト追加
+//           let flex = `<div class="flex">`;
+//           flex += `
+//         <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+//         <table>
+//         <th>社員名:</th><td>${user.employee_name}</td></tr>
+//         <th></th><td>${user.furigana}</td></tr>
+//         <th>入社日:</th><td>${user.hire_date}</td></tr>
+//         <th>所属部署:</th><td>${user.department}</td></tr>
+//         </table>
+//         <table>
+//         <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
+//         <th>年齢:</th><td>${user.age}歳</td></tr>
+//         <th>住所:</th><td>${user.address}</td></tr>
+//         <th>電話番号:</th><td>${user.phone_number}</td></tr>
+//         </table>
+//         </div>
+//         `;
+//           contents.insertAdjacentHTML("beforeend", flex);
+//         }
+//       });
+//       //年齢・降順
+//       sort_btn.addEventListener("click", function () {
+        // if (select.selectedIndex == 4) {
+        //   function compare(a, b) {
+        //     let r = 0;
+        //     if (a.age < b.age) {
+        //       r = 1;
+        //     } else if (a.age > b.age) {
+        //       r = -1;
+        //     }
+        //     return r;
+        //   }
+        //   data.sort(compare);
+        //   console.log(data);
+//           // icon画像の配置
+//           let icon = document.getElementById("icon");
+//           let contents = document.getElementById("contents");
+//           //リスト追加
+//           let flex = `<div class="flex">`;
+//           flex += `
+//         <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+//         <table>
+//         <th>社員名:</th><td>${user.employee_name}</td></tr>
+//         <th></th><td>${user.furigana}</td></tr>
+//         <th>入社日:</th><td>${user.hire_date}</td></tr>
+//         <th>所属部署:</th><td>${user.department}</td></tr>
+//         </table>
+//         <table>
+//         <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
+//         <th>年齢:</th><td>${user.age}歳</td></tr>
+//         <th>住所:</th><td>${user.address}</td></tr>
+//         <th>電話番号:</th><td>${user.phone_number}</td></tr>
+//         </table>
+//         </div>
+//         `;
+//           contents.insertAdjacentHTML("beforeend", flex);
+//         }
+//       });
+//     };
+//   });
+// });
