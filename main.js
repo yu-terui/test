@@ -231,6 +231,74 @@ fetch("./webapi.json") //リクエスト送信
           </div>
           `;
       contents.insertAdjacentHTML("beforeend", flex);
-      
     });
+    //sort_btnを押したとき、selectの値に応じて並び替え
+    let sort_btn = document.getElementById("sort_btn");
+    let select = document.querySelector('[name="select_sort"]');
+    select.onchange = (event) => {
+      //名前・昇順
+      sort_btn.addEventListener("click", function () {
+        if (select.selectedIndex == 1) {
+          function compare(a, b) {
+            let r = 0;
+            if (a.furigana < b.furigana) {
+              r = -1;
+            } else if (a.furigana > b.furigana) {
+              r = 1;
+            }
+            return r;
+          }
+          data.sort(compare);
+          console.log(data);
+        }
+      });
+      //名前・降順
+      sort_btn.addEventListener("click", function () {
+        if (select.selectedIndex == 2) {
+          function compare(a, b) {
+            let r = 0;
+            if (a.furigana < b.furigana) {
+              r = 1;
+            } else if (a.furigana > b.furigana) {
+              r = -1;
+            }
+            return r;
+          }
+          data.sort(compare);
+          console.log(data);
+        }
+      });
+      //年齢・昇順
+      sort_btn.addEventListener("click", function () {
+        if (select.selectedIndex == 3) {
+          function compare(a, b) {
+            let r = 0;
+            if (a.age < b.age) {
+              r = -1;
+            } else if (a.age > b.age) {
+              r = 1;
+            }
+            return r;
+          }
+          data.sort(compare);
+          console.log(data);
+        }
+      });
+      //年齢・降順
+      sort_btn.addEventListener("click", function () {
+        if (select.selectedIndex == 4) {
+          function compare(a, b) {
+            let r = 0;
+            if (a.age < b.age) {
+              r = 1;
+            } else if (a.age > b.age) {
+              r = -1;
+            }
+            return r;
+          }
+          data.sort(compare);
+          console.log(data);
+        }
+      });
+    };
   });
