@@ -65,7 +65,7 @@ input_birthday.addEventListener("change", function () {
   document.getElementById("form_input_age").value = age;
 });
 
-// 登録ボタンをクリックした時の動き
+// 登録ボタンをクリック→バリデーション
 register_btn.addEventListener("click", function (event) {
   //名前
   let input_name = document.getElementById("form_input_name");
@@ -148,7 +148,7 @@ register_btn.addEventListener("click", function (event) {
     input_number.style.borderColor = "#333";
   }
 
-  // 登録ボタンを押してリストに情報を追加
+  // 登録ボタンをクリック→リストに情報を追加
   // アイコン画像を挿入
   let icon = document.getElementById("icon");
   icon.insertAdjacentHTML(
@@ -203,3 +203,34 @@ register_btn.addEventListener("click", function (event) {
     "<th>" + "電話番号:" + "</th>" + "<td>" + value_number + "</td>" + "</tr>";
   table2_object.insertAdjacentHTML("beforeend", tr2);
 });
+
+fetch("./webapi.json") //リクエスト送信
+  .then((response) => response.json()) //レスポンスデータを取得
+  .then((data) => {
+    //変数dataにデータをセット
+    const dataAsString = JSON.stringify(data); //オブジェクトをjsonにエンコード
+    data.forEach((user) => {
+      // icon画像の配置
+      let icon = document.getElementById("icon");
+      let contents = document.getElementById("contents");
+      let flex = `<div class="flex">`;
+      flex += `
+          <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+          <table>
+          <th>社員名:</th><td>${user.employee_name}</td></tr>
+          <th></th><td>${user.furigana}</td></tr>
+          <th>入社日:</th><td>${user.hire_date}</td></tr>
+          <th>所属部署:</th><td>${user.department}</td></tr>
+          </table>
+          <table>
+          <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
+          <th>年齢:</th><td>${user.age}歳</td></tr>
+          <th>住所:</th><td>${user.address}</td></tr>
+          <th>電話番号:</th><td>${user.phone_number}</td></tr>
+          </table>
+          </div>
+          `;
+      contents.insertAdjacentHTML("beforeend", flex);
+      
+    });
+  });
