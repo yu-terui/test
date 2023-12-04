@@ -19,6 +19,20 @@ p {
 th {
   font-weight: normal;
 }
+#select {
+  text-align: center;
+  margin: 10px;
+}
+#select select {
+  padding: 10px;
+}
+#select button {
+  padding: 10px 20px;
+  color: #fff;
+  background: seagreen;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
 .members_name {
   font-weight: bold;
   font-size: 130%;

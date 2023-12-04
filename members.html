@@ -8,9 +8,19 @@
         <link rel="stylesheet" href="./css/members.css">
     </head>
     <body>
+        <div id="select">
+            <select name="select_sort" id="select_sort">
+                <option value="" selected>選択してください</option>
+                <option value="name_asc">名前・昇順</option>
+                <option value="name_desc">名前・降順</option>
+                <option value="age_asc">年齢・昇順</option>
+                <option value="age_desc">年齢・降順</option>
+            </select>
+            <button id="sort_btn">実行</button>
+        </div>
         <div class="container">
             <!-- 福岡 -->
-            <div class="flex">
+            <!-- <div class="flex">
                 <p><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
                 <table>
                     <tr>
@@ -52,9 +62,9 @@
                         <td>090-0000-xxxx</td>
                     </tr>
                 </table>
-            </div>
+            </div> -->
             <!-- 山形 -->
-            <div class="flex">
+            <!-- <div class="flex">
                 <p><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
                 <table>
                     <tr>
@@ -96,9 +106,9 @@
                         <td>090-0000-xxxx</td>
                     </tr>
                 </table>
-            </div>
+            </div> -->
             <!-- 長野 -->
-            <div class="flex">
+            <!-- <div class="flex">
                 <p><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
                 <table>
                     <tr>
@@ -140,21 +150,23 @@
                         <td>090-0000-xxxx</td>
                     </tr>
                 </table>
-            </div>
+            </div> -->
             <div class="flex">
-                <p id="icon"></p>
-                <table id="table1">
-                    <!-- name -->
-                    <!-- hiragana -->
-                    <!-- date -->
-                    <!-- department -->
-                </table>
-                <table id="table2">
-                    <!-- birthday -->
-                    <!-- age -->
-                    <!-- address -->
-                    <!-- number -->
-                </table>
+                <div id="contents">
+                    <p id="icon"></p>
+                    <table id="table1">
+                        <!-- name -->
+                        <!-- hiragana -->
+                        <!-- date -->
+                        <!-- department -->
+                    </table>
+                    <table id="table2">
+                        <!-- birthday -->
+                        <!-- age -->
+                        <!-- address -->
+                        <!-- number -->
+                    </table>
+                </div>
             </div>
             <div id="form">
                 <p id="form_head">社員新規登録</p>
