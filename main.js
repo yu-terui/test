@@ -210,7 +210,46 @@ fetch("./webapi.json") //リクエスト送信
     //変数dataにデータをセット
     const dataAsString = JSON.stringify(data); //オブジェクトをjsonにエンコード
     data.forEach((user) => {
-      // icon画像の配置
+      // // icon画像の配置
+      // let icon = document.getElementById("icon");
+      // let contents = document.getElementById("contents");
+      // let flex = `<div class="flex">`;
+      // flex += `
+      //     <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+      //     <table>
+      //     <th>社員名:</th><td>${user.employee_name}</td></tr>
+      //     <th></th><td>${user.furigana}</td></tr>
+      //     <th>入社日:</th><td>${user.hire_date}</td></tr>
+      //     <th>所属部署:</th><td>${user.department}</td></tr>
+      //     </table>
+      //     <table>
+      //     <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
+      //     <th>年齢:</th><td>${user.age}歳</td></tr>
+      //     <th>住所:</th><td>${user.address}</td></tr>
+      //     <th>電話番号:</th><td>${user.phone_number}</td></tr>
+      //     </table>
+      //     </div>
+      //     `;
+      // contents.insertAdjacentHTML("beforeend", flex);
+    //sort_btnを押したとき、selectの値に応じて並び替え
+    let sort_btn = document.getElementById("sort_btn");
+    let select = document.querySelector('[name="select_sort"]');
+    select.onchange = (event) => {
+      //名前・昇順
+      sort_btn.addEventListener("click", function () {
+        if (select.selectedIndex == 1) {
+          function compare(a, b) {
+            let r = 0;
+            if (a.furigana < b.furigana) {
+              r = -1;
+            } else if (a.furigana > b.furigana) {
+              r = 1;
+            }
+            return r;
+          }
+          data.sort(compare);
+          console.log(data);
+          // icon画像の配置
       let icon = document.getElementById("icon");
       let contents = document.getElementById("contents");
       let flex = `<div class="flex">`;
@@ -231,25 +270,6 @@ fetch("./webapi.json") //リクエスト送信
           </div>
           `;
       contents.insertAdjacentHTML("beforeend", flex);
-    });
-    //sort_btnを押したとき、selectの値に応じて並び替え
-    let sort_btn = document.getElementById("sort_btn");
-    let select = document.querySelector('[name="select_sort"]');
-    select.onchange = (event) => {
-      //名前・昇順
-      sort_btn.addEventListener("click", function () {
-        if (select.selectedIndex == 1) {
-          function compare(a, b) {
-            let r = 0;
-            if (a.furigana < b.furigana) {
-              r = -1;
-            } else if (a.furigana > b.furigana) {
-              r = 1;
-            }
-            return r;
-          }
-          data.sort(compare);
-          console.log(data);
         }
       });
       //名前・降順
@@ -300,5 +320,6 @@ fetch("./webapi.json") //リクエスト送信
           console.log(data);
         }
       });
-    };
+      };
+    });
   });
