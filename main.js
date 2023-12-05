@@ -204,31 +204,44 @@ register_btn.addEventListener("click", function (event) {
   table2_object.insertAdjacentHTML("beforeend", tr2);
 });
 
-// async function callApi(){
-// const res = await fetch("./webapi.json");//リクエスト送信
-// //（情報テキストを突っ込む・コールバック関数が絡む情報）
-// const users = await res.json();
-// return users;
-// }
-// let sort_btn = document.getElementById("sort_btn");
-// sort_btn.addEventListener('click',test);
-// async function test(){
-// const users = await callApi();
-// console.log(users);
-// users.forEach(function (element) {
-//   console.log(element.name);
-// })
-// }
-
+// デフォルトの表示を一旦削除して、ボタンの情報を追加
+// モノを並び替えるとき＝現状を一度リセットする
 async function callApi() {
   //関数のfunction宣言の前にasyncを書いて非同期（async）関数であることを宣言
   const res = await fetch("./webapi.json");
   //変数resにawaitを書くことで非同期通信が終わった後にfetch()メソッド（引数はurl）を実行。
   const users = await res.json();
   // 変数jsonにawaitを書くことで非同期通信が終わった後にres.json()を実行
+
+  // デフォルト表示のリスト
+  // icon画像の配置
+  for (let i = 0; i < users.length; i++) {
+    // icon画像の配置
+    let icon = document.getElementById("icon");
+    let contents = document.getElementById("contents");
+    //リスト追加
+    let flex = `<div class="flex">`;
+    flex += `
+<p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+<table>
+<th>社員名:</th><td>${users[i].employee_name}</td></tr>
+<th></th><td>${users[i].furigana}</td></tr>
+<th>入社日:</th><td>${users[i].hire_date}</td></tr>
+<th>所属部署:</th><td>${users[i].department}</td></tr>
+</table>
+<table>
+<th>誕生日:</th><td>${users[i].date_of_birth}</td></tr>
+<th>年齢:</th><td>${users[i].age}歳</td></tr>
+<th>住所:</th><td>${users[i].address}</td></tr>
+<th>電話番号:</th><td>${users[i].phone_number}</td></tr>
+</table>
+</div>
+`;
+    contents.insertAdjacentHTML("beforeend", flex);
+  }
   return users;
 }
-
+callApi();
 //１．if分で昇順降順の判定
 //２．sortで情報を整形
 //３．foreachで吐き出す
@@ -245,6 +258,10 @@ async function test() {
   // 名前・昇順
   // １．if分で昇順降順の判定
   if (select.selectedIndex == 1) {
+    let contents = document.getElementById("contents");
+        while (contents.firstChild) {
+          contents.removeChild(contents.firstChild);
+        }
     //２．for文で繰り返し
     for (let i = 0; i < users.length; i++) {
       //３．sortで情報を整形
@@ -277,6 +294,10 @@ async function test() {
   }
   //名前・降順
   if (select.selectedIndex == 2) {
+    let contents = document.getElementById("contents");
+        while (contents.firstChild) {
+          contents.removeChild(contents.firstChild);
+        }
     for (let i = 0; i < users.length; i++) {
       users.sort((a, b) => {
         return b.furigana.localeCompare(a.furigana, "ja");
@@ -307,6 +328,10 @@ async function test() {
   }
   //年齢・昇順
   if (select.selectedIndex == 3) {
+    let contents = document.getElementById("contents");
+        while (contents.firstChild) {
+          contents.removeChild(contents.firstChild);
+        }
     for (let i = 0; i < users.length; i++) {
       users.sort((a, b) => a.age - b.age);
       // icon画像の配置
@@ -335,6 +360,10 @@ async function test() {
   }
   //年齢・降順
   if (select.selectedIndex == 4) {
+    let contents = document.getElementById("contents");
+        while (contents.firstChild) {
+          contents.removeChild(contents.firstChild);
+        }
     for (let i = 0; i < users.length; i++) {
       users.sort((a, b) => b.age - a.age);
       // icon画像の配置
