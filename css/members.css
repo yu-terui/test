@@ -5,25 +5,10 @@
 @media screen and (max-width: 768px) {
   .container {
     width: 100%;
-    margin: auto;
   }
-}
-#select {
-  text-align: center;
-
 }
 p {
   margin-bottom: 0;
-}
-th {
-  font-weight: normal;
-}
-table {
-  margin: 10px;
-}
-#select_sort {
-  padding: 10px;
-  margin: 10px;
 }
 .flex {
   display: flex;
@@ -31,11 +16,27 @@ table {
   padding: 10px;
   border-top: 1px solid #ccc;
 }
-
-/* .members_name {
+th {
+  font-weight: normal;
+}
+#select {
+  text-align: center;
+  margin: 10px;
+}
+#select select {
+  padding: 10px;
+}
+#select button {
+  padding: 10px 20px;
+  color: #fff;
+  background: seagreen;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.members_name {
   font-weight: bold;
   font-size: 130%;
-} */
+}
 #form {
   width: 70%;
   margin: auto;
@@ -59,15 +60,13 @@ table {
   border: 1px solid #333;
   border-radius: 3px;
 }
-#form #register_btn,
-#sort_btn {
+#form #register_btn {
   padding: 10px 20px;
   color: #fff;
   background: seagreen;
   border: 1px solid #ccc;
   border-radius: 3px;
 }
-#form #register_btn:hover,
-#sort_btn:hover {
+#form #register_btn:hover {
   opacity: 0.7;
 }

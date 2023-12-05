@@ -204,33 +204,123 @@ register_btn.addEventListener("click", function (event) {
   table2_object.insertAdjacentHTML("beforeend", tr2);
 });
 
-fetch("./webapi.json") //リクエスト送信
-  .then((response) => response.json()) //レスポンスデータを取得
-  .then((data) => {
-    //変数dataにデータをセット
-    const dataAsString = JSON.stringify(data); //オブジェクトをjsonにエンコード
-    data.forEach((user) => {
-      // icon画像の配置
-      let icon = document.getElementById("icon");
-      let contents = document.getElementById("contents");
-      let flex = `<div class="flex">`;
-      flex += `
-          <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
-          <table>
-          <th>社員名:</th><td>${user.employee_name}</td></tr>
-          <th></th><td>${user.furigana}</td></tr>
-          <th>入社日:</th><td>${user.hire_date}</td></tr>
-          <th>所属部署:</th><td>${user.department}</td></tr>
-          </table>
-          <table>
-          <th>誕生日:</th><td>${user.date_of_birth}</td></tr>
-          <th>年齢:</th><td>${user.age}歳</td></tr>
-          <th>住所:</th><td>${user.address}</td></tr>
-          <th>電話番号:</th><td>${user.phone_number}</td></tr>
-          </table>
-          </div>
-          `;
-      contents.insertAdjacentHTML("beforeend", flex);
-      
+// デフォルトの表示を一旦削除して、ボタンの情報を追加
+// モノを並び替えるとき＝現状を一度リセットする
+async function callApi() {
+  //関数のfunction宣言の前にasyncを書いて非同期（async）関数であることを宣言
+  const res = await fetch("./webapi.json");
+  //変数resにawaitを書くことで非同期通信が終わった後にfetch()メソッド（引数はurl）を実行。
+  const users = await res.json();
+  // 変数jsonにawaitを書くことで非同期通信が終わった後にres.json()を実行
+
+  // デフォルト表示のリスト
+  // icon画像の配置
+  for (let i = 0; i < users.length; i++) {
+    // icon画像の配置
+    let icon = document.getElementById("icon");
+    let contents = document.getElementById("contents");
+    //リスト追加
+    let flex = `<div class="flex">`;
+    flex += `
+<p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+<table>
+<th>社員名:</th><td>${users[i].employee_name}</td></tr>
+<th></th><td>${users[i].furigana}</td></tr>
+<th>入社日:</th><td>${users[i].hire_date}</td></tr>
+<th>所属部署:</th><td>${users[i].department}</td></tr>
+</table>
+<table>
+<th>誕生日:</th><td>${users[i].date_of_birth}</td></tr>
+<th>年齢:</th><td>${users[i].age}歳</td></tr>
+<th>住所:</th><td>${users[i].address}</td></tr>
+<th>電話番号:</th><td>${users[i].phone_number}</td></tr>
+</table>
+</div>
+`;
+    contents.insertAdjacentHTML("beforeend", flex);
+  }
+  return users;
+}
+callApi();
+//１．if分で昇順降順の判定
+//２．sortで情報を整形
+//３．foreachで吐き出す
+//繰り返しの中でソートを使う× ソートをして順番が治ったうえで繰り返し（リストの順番）
+//配列の中のobjectが対象
+
+//sort_btnを押したとき、selectの値に応じて並び替え
+let sort_btn = document.getElementById("sort_btn");
+sort_btn.addEventListener("click", sort);
+async function sort() {
+  const users = await callApi();
+  //ボタンを押したとき、デフォルトのリストをリセット
+  let contents = document.getElementById("contents");
+  while (contents.firstChild) {
+    contents.removeChild(contents.firstChild);
+  }
+  //selectの値を取得・判定
+  let select = document.querySelector('[name="select_sort"]');
+  function insert(i) {
+    let icon = document.getElementById("icon");
+    let contents = document.getElementById("contents");
+    //リスト追加
+    let flex = `<div class="flex">`;
+    flex += `
+  <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+  <table>
+  <th>社員名:</th><td>${users[i].employee_name}</td></tr>
+  <th></th><td>${users[i].furigana}</td></tr>
+  <th>入社日:</th><td>${users[i].hire_date}</td></tr>
+  <th>所属部署:</th><td>${users[i].department}</td></tr>
+  </table>
+  <table>
+  <th>誕生日:</th><td>${users[i].date_of_birth}</td></tr>
+  <th>年齢:</th><td>${users[i].age}歳</td></tr>
+  <th>住所:</th><td>${users[i].address}</td></tr>
+  <th>電話番号:</th><td>${users[i].phone_number}</td></tr>
+  </table>
+  </div>
+  `;
+    // →引数としてusersの情報を渡し、一つのメソッドに
+    contents.insertAdjacentHTML("beforeend", flex);
+  }
+  // 名前・昇順
+  // １．if分で昇順降順の判定
+  if (select.selectedIndex == 1) {
+    //２．sortで情報を整形
+    users.sort((a, b) => {
+      return a.furigana.localeCompare(b.furigana, "ja");
     });
-  });
+    //３．for文で繰り返し
+      for (let i = 0; i < users.length; i++) {
+        // icon画像の配置
+        insert(i);
+    }
+  }
+  //名前・降順
+  if (select.selectedIndex == 2) {
+    users.sort((a, b) => {
+      return b.furigana.localeCompare(a.furigana, "ja");
+    });
+      for (let i = 0; i < users.length; i++) {
+        // icon画像の配置
+        insert(i);
+    }
+  }
+  //年齢・昇順
+  if (select.selectedIndex == 3) {
+    users.sort((a, b) => a.age - b.age);
+      for (let i = 0; i < users.length; i++) {
+        // icon画像の配置
+        insert(i);
+    }
+  }
+  //年齢・降順
+  if (select.selectedIndex == 4) {
+    users.sort((a, b) => b.age - a.age);
+      for (let i = 0; i < users.length; i++) {
+        // icon画像の配置
+        insert(i);
+    }
+  }
+}
