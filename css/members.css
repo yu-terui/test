@@ -19,14 +19,18 @@ p {
 th {
   font-weight: normal;
 }
-#select {
+#select,#search{
   text-align: center;
   margin: 10px;
 }
-#select select {
+#select select,
+#search input{
+  width:200px;
   padding: 10px;
 }
-#select button {
+#select button,
+#form #register_btn,
+#search #search_btn {
   padding: 10px 20px;
   color: #fff;
   background: seagreen;
@@ -58,13 +62,6 @@ th {
   margin: auto;
   width: 100%;
   border: 1px solid #333;
-  border-radius: 3px;
-}
-#form #register_btn {
-  padding: 10px 20px;
-  color: #fff;
-  background: seagreen;
-  border: 1px solid #ccc;
   border-radius: 3px;
 }
 #form #register_btn:hover {
