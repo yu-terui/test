@@ -261,6 +261,7 @@ async function sort() {
   //selectの値を取得・判定
   let select = document.querySelector('[name="select_sort"]');
   function insert(i) {
+    //アイコン画像の追加
     let icon = document.getElementById("icon");
     let contents = document.getElementById("contents");
     //リスト追加
@@ -332,15 +333,34 @@ async function search() {
     contents.removeChild(contents.firstChild);
   }
   //値の一部が配列内のオブジェクトと一致した場合
+  // indexOf＝index番号のみ 数値が0以上だったら出力
+  // !＝対象がtrueだったら逆になる
   let getValue = search_word.value;
   for (let i = 0; i < users.length; i++) {
-    if (users[i].employee_name.indexOf(getValue)) {
-      console.log(users[i].employee_name);
+    let index = users[i].employee_name.indexOf(getValue);
+    if (index >= 0) {
+      //画像の追加
+      let icon = document.getElementById("icon");
+      let contents = document.getElementById("contents");
+      //リスト追加
+      let flex = `<div class="flex">`;
+            flex += `
+        <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+        <table>
+        <th>社員名:</th><td>${users[i].employee_name}</td></tr>
+        <th></th><td>${users[i].furigana}</td></tr>
+        <th>入社日:</th><td>${users[i].hire_date}</td></tr>
+        <th>所属部署:</th><td>${users[i].department}</td></tr>
+        </table>
+        <table>
+        <th>誕生日:</th><td>${users[i].date_of_birth}</td></tr>
+        <th>年齢:</th><td>${users[i].age}歳</td></tr>
+        <th>住所:</th><td>${users[i].address}</td></tr>
+        <th>電話番号:</th><td>${users[i].phone_number}</td></tr>
+        </table>
+        </div>
+        `;
+            contents.insertAdjacentHTML("beforeend", flex);
     }
   }
-  // for (let i = 0; i < users.length; i++) {
-  //   let result = users.filter(val => {
-  //     return users.indexOf(getValue);
-  //   });
-  //   console.log(result);
 }
