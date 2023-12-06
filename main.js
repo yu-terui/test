@@ -339,8 +339,6 @@ async function search() {
   for (let i = 0; i < users.length; i++) {
     let index = users[i].employee_name.indexOf(getValue);
     if (index >= 0) {
-      //画像の追加
-      let icon = document.getElementById("icon");
       let contents = document.getElementById("contents");
       //リスト追加
       let flex = `<div class="flex">`;
