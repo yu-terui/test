@@ -281,7 +281,6 @@ async function sort() {
   </table>
   </div>
   `;
-    // →引数としてusersの情報を渡し、一つのメソッドに
     contents.insertAdjacentHTML("beforeend", flex);
   }
   // 名前・昇順
@@ -292,9 +291,8 @@ async function sort() {
       return a.furigana.localeCompare(b.furigana, "ja");
     });
     //３．for文で繰り返し
-      for (let i = 0; i < users.length; i++) {
-        // icon画像の配置
-        insert(i);
+    for (let i = 0; i < users.length; i++) {
+      insert(i);
     }
   }
   //名前・降順
@@ -302,25 +300,47 @@ async function sort() {
     users.sort((a, b) => {
       return b.furigana.localeCompare(a.furigana, "ja");
     });
-      for (let i = 0; i < users.length; i++) {
-        // icon画像の配置
-        insert(i);
+    for (let i = 0; i < users.length; i++) {
+      insert(i);
     }
   }
   //年齢・昇順
   if (select.selectedIndex == 3) {
     users.sort((a, b) => a.age - b.age);
-      for (let i = 0; i < users.length; i++) {
-        // icon画像の配置
-        insert(i);
+    for (let i = 0; i < users.length; i++) {
+      insert(i);
     }
   }
   //年齢・降順
   if (select.selectedIndex == 4) {
     users.sort((a, b) => b.age - a.age);
-      for (let i = 0; i < users.length; i++) {
-        // icon画像の配置
-        insert(i);
+    for (let i = 0; i < users.length; i++) {
+      insert(i);
     }
   }
+}
+//search_btnを押したとき、selectの値に応じて並び替え
+let search_word = document.getElementById("search_word");
+let search_btn = document.getElementById("search_btn");
+search_btn.addEventListener("click", search);
+//検索ボタンを押したとき
+async function search() {
+  const users = await callApi();
+  // デフォルトのリストをリセット
+  let contents = document.getElementById("contents");
+  while (contents.firstChild) {
+    contents.removeChild(contents.firstChild);
+  }
+  //値の一部が配列内のオブジェクトと一致した場合
+  let getValue = search_word.value;
+  for (let i = 0; i < users.length; i++) {
+    if (users[i].employee_name.indexOf(getValue)) {
+      console.log(users[i].employee_name);
+    }
+  }
+  // for (let i = 0; i < users.length; i++) {
+  //   let result = users.filter(val => {
+  //     return users.indexOf(getValue);
+  //   });
+  //   console.log(result);
 }
