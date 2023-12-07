@@ -65,6 +65,7 @@ input_birthday.addEventListener("change", function () {
   document.getElementById("form_input_age").value = age;
 });
 
+//バリデーションチェック
 // 登録ボタンをクリック→バリデーション
 register_btn.addEventListener("click", function (event) {
   //名前
@@ -148,6 +149,7 @@ register_btn.addEventListener("click", function (event) {
     input_number.style.borderColor = "#333";
   }
 
+  //新規情報追加
   // 登録ボタンをクリック→リストに情報を追加
   // アイコン画像を挿入
   let icon = document.getElementById("icon");
@@ -204,6 +206,7 @@ register_btn.addEventListener("click", function (event) {
   table2_object.insertAdjacentHTML("beforeend", tr2);
 });
 
+// ソート機能
 // デフォルトの表示を一旦削除して、ボタンの情報を追加
 // モノを並び替えるとき＝現状を一度リセットする
 async function callApi() {
@@ -214,10 +217,7 @@ async function callApi() {
   // 変数jsonにawaitを書くことで非同期通信が終わった後にres.json()を実行
 
   // デフォルト表示のリスト
-  // icon画像の配置
   for (let i = 0; i < users.length; i++) {
-    // icon画像の配置
-    let icon = document.getElementById("icon");
     let contents = document.getElementById("contents");
     //リスト追加
     let flex = `<div class="flex">`;
@@ -239,8 +239,12 @@ async function callApi() {
 `;
     contents.insertAdjacentHTML("beforeend", flex);
   }
+  let contents = document.getElementById("contents");
+  // contents.insertAdjacentHTML("beforebegin",
+  // `<button id="edit_btn">編集</button>`)
   return users;
 }
+
 callApi();
 //１．if分で昇順降順の判定
 //２．sortで情報を整形
@@ -261,8 +265,6 @@ async function sort() {
   //selectの値を取得・判定
   let select = document.querySelector('[name="select_sort"]');
   function insert(i) {
-    //アイコン画像の追加
-    let icon = document.getElementById("icon");
     let contents = document.getElementById("contents");
     //リスト追加
     let flex = `<div class="flex">`;
@@ -280,6 +282,8 @@ async function sort() {
   <th>住所:</th><td>${users[i].address}</td></tr>
   <th>電話番号:</th><td>${users[i].phone_number}</td></tr>
   </table>
+  
+  
   </div>
   `;
     contents.insertAdjacentHTML("beforeend", flex);
@@ -320,6 +324,8 @@ async function sort() {
     }
   }
 }
+
+//絞り込み機能
 //search_btnを押したとき、selectの値に応じて並び替え
 let search_word = document.getElementById("search_word");
 let search_btn = document.getElementById("search_btn");
@@ -333,8 +339,6 @@ async function search() {
     contents.removeChild(contents.firstChild);
   }
   //値の一部が配列内のオブジェクトと一致した場合
-  // indexOf＝index番号のみ 数値が0以上だったら出力
-  // !＝対象がtrueだったら逆になる
   let getValue = search_word.value;
   for (let i = 0; i < users.length; i++) {
     let index = users[i].employee_name.indexOf(getValue);
@@ -342,23 +346,130 @@ async function search() {
       let contents = document.getElementById("contents");
       //リスト追加
       let flex = `<div class="flex">`;
-            flex += `
-        <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
-        <table>
-        <th>社員名:</th><td>${users[i].employee_name}</td></tr>
-        <th></th><td>${users[i].furigana}</td></tr>
-        <th>入社日:</th><td>${users[i].hire_date}</td></tr>
-        <th>所属部署:</th><td>${users[i].department}</td></tr>
-        </table>
-        <table>
-        <th>誕生日:</th><td>${users[i].date_of_birth}</td></tr>
-        <th>年齢:</th><td>${users[i].age}歳</td></tr>
-        <th>住所:</th><td>${users[i].address}</td></tr>
-        <th>電話番号:</th><td>${users[i].phone_number}</td></tr>
-        </table>
-        </div>
-        `;
-            contents.insertAdjacentHTML("beforeend", flex);
+      flex += `
+      <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+      <table>
+      <th>社員名:</th><td>${users[i].employee_name}</td></tr>
+      <th></th><td>${users[i].furigana}</td></tr>
+      <th>入社日:</th><td>${users[i].hire_date}</td></tr>
+      <th>所属部署:</th><td>${users[i].department}</td></tr>
+      </table>
+      <table>
+      <th>誕生日:</th><td>${users[i].date_of_birth}</td></tr>
+      <th>年齢:</th><td>${users[i].age}歳</td></tr>
+      <th>住所:</th><td>${users[i].address}</td></tr>
+      <th>電話番号:</th><td>${users[i].phone_number}</td></tr>
+      </table>
+          
+      </div>
+      `;
+      contents.insertAdjacentHTML("beforeend", flex);
     }
   }
 }
+// 編集機能
+// ◎ボタンをクリックしたら、テキストボックスに置き換わる
+//編集完了後もう一度ボタンを押すと、変更した内容が反映される
+//元のテキストの状態に戻る
+let edit_btn = document.getElementById("edit_btn");
+edit_btn.addEventListener('click', edit);
+// edit_btn.forEach(function(target){
+  // target.addEventListener("click", edit);
+async function edit() {
+    const users = await callApi();
+    // デフォルトのリストをリセット
+    let contents = document.getElementById("contents");
+    while (contents.firstChild) {
+      contents.removeChild(contents.firstChild);
+    }
+    function insert(i) {
+      let contents = document.getElementById("contents");
+      //リスト追加
+      let flex = `<div class="flex">`;
+      flex += `
+  <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+  <table>
+  <th>社員名:</th><td>${users[i].employee_name}</td></tr>
+  <th></th><td>${users[i].furigana}</td></tr>
+  <th>入社日:</th><td>${users[i].hire_date}</td></tr>
+  <th>所属部署:</th><td>${users[i].department}</td></tr>
+  </table>
+  <table>
+  <th>誕生日:</th><td>${users[i].date_of_birth}</td></tr>
+  <th>年齢:</th><td>${users[i].age}歳</td></tr>
+  <th>住所:</th><td>${users[i].address}</td></tr>
+  <th>電話番号:</th><td>${users[i].phone_number}</td></tr>
+  </table>
+  
+  </div>
+  `;
+      contents.insertAdjacentHTML("beforeend", flex);
+    }
+    //テキストボックス状のリスト追加
+    for (let i = 0; i < users.length; i++) {
+      let flex = `<div class="flex">`;
+      flex += `
+    <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+    <table>
+    <th>社員名:</th><td><input class="editValue" id="nameValue" value="${users[i].employee_name}"></td>
+    </tr>
+    <th>ふりがな:</th><td><input class="editValue" id="furiganaValue" value="${users[i].furigana}"></td>
+    </tr>
+    <th>入社日:</th><td><input class="editValue" id="dateValue" value="${users[i].hire_date}"></td>
+    </tr>
+    <th>所属部署:</th><td><input class="editValue" id="departmentValue" value="${users[i].department}"></td>
+    </tr>
+    </table>
+    <table>
+    <th>誕生日:</th><td><input class="editValue" id="birthdayValue" value="${users[i].date_of_birth}"></td>
+    </tr>
+    <th>年齢:</th><td><input class="editValue" id="ageValue" value="${users[i].age}歳"></td>
+    </tr>
+    <th>住所:</th><td><input class="editValue" id="addressValue" value="${users[i].address}"></td>
+    </tr>
+    <th>電話番号:</th><td><input class="editValue" id="phoneValue" value="${users[i].phone_number}"></td>
+    </tr>
+    </table>
+        
+    </div>
+    `;
+      contents.insertAdjacentHTML("beforeend", flex);
+    }
+    let editValue = document.getElementsByClassName("editValue");
+    let nameValue = document.getElementById("nameValue");
+    nameValue.addEventListener("change", function () {
+      console.log(nameValue.value);
+      for (let i = 0; i < users.length; i++) {
+        insert(i);
+      }
+    });
+    let furiganaValue = document.getElementById("furiganaValue");
+    furiganaValue.addEventListener("change", function () {
+      console.log(furiganaValue.value);
+    });
+    let dateValue = document.getElementById("dateValue");
+    dateValue.addEventListener("change", function () {
+      console.log(dateValue.value);
+    });
+    let departmentValue = document.getElementById("departmentValue");
+    departmentValue.addEventListener("change", function () {
+      console.log(departmentValue.value);
+    });
+    let birthdayValue = document.getElementById("birthdayValue");
+    birthdayValue.addEventListener("change", function () {
+      console.log(birthdayValue.value);
+    });
+    let ageValue = document.getElementById("ageValue");
+    ageValue.addEventListener("change", function () {
+      console.log(ageValue.value);
+    });
+    let addressValue = document.getElementById("addressValue");
+    addressValue.addEventListener("change", function () {
+      console.log(addressValue.value);
+    });
+    let phoneValue = document.getElementById("phoneValue");
+    phoneValue.addEventListener("change", function () {
+      console.log(phoneValue.value);
+    });
+}
+// })
