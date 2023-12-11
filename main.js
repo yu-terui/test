@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 <tr><th>住所:</th><td class="td">${users[i].address}</td></tr>
 <tr><th>電話番号:</th><td class="td">${users[i].phone_number}</td></tr>
 </table>
-<button id="btn" class="edit_btn off_edit">編集</button>
+<button id="btn" class="editBtn offEdit">編集</button>
 </div>
 `;
       contents.insertAdjacentHTML("beforeend", flex);
@@ -259,9 +259,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
 //繰り返しの中でソートを使う× ソートをして順番が治ったうえで繰り返し（リストの順番）
 //配列の中のobjectが対象
 
-//sort_btnを押したとき、selectの値に応じて並び替え
-let sort_btn = document.getElementById("sort_btn");
-sort_btn.addEventListener("click", sort);
+//sortBtnを押したとき、selectの値に応じて並び替え
+let sortBtn = document.getElementById("sortBtn");
+sortBtn.addEventListener("click", sort);
 async function sort() {
   const users = await callApi();
   //ボタンを押したとき、デフォルトのリストをリセット
@@ -270,7 +270,7 @@ async function sort() {
     contents.removeChild(contents.firstChild);
   }
   //selectの値を取得・判定
-  let select = document.querySelector('[name="select_sort"]');
+  let select = document.querySelector('[name="selectsSort"]');
   function insert(i) {
     let contents = document.getElementById("contents");
     //リスト追加
@@ -289,7 +289,7 @@ async function sort() {
   <tr><th>住所:</th><td>${users[i].address}</td></tr>
   <tr><th>電話番号:</th><td>${users[i].phone_number}</td></tr>
   </table>
-  <button class="edit_btn off_edit">編集</button>
+  <button class="editBtn offEdit">編集</button>
   </div>
   `;
     contents.insertAdjacentHTML("beforeend", flex);
@@ -333,10 +333,10 @@ async function sort() {
 }
 
 //絞り込み機能
-//search_btnを押したとき、selectの値に応じて並び替え
-let search_word = document.getElementById("search_word");
-let search_btn = document.getElementById("search_btn");
-search_btn.addEventListener("click", search);
+//searchBtnを押したとき、selectの値に応じて並び替え
+let searchWord = document.getElementById("searchWord");
+let searchBtn = document.getElementById("searchBtn");
+searchBtn.addEventListener("click", search);
 //検索ボタンを押したとき
 async function search() {
   const users = await callApi();
@@ -346,7 +346,7 @@ async function search() {
     contents.removeChild(contents.firstChild);
   }
   //値の一部が配列内のオブジェクトと一致した場合
-  let getValue = search_word.value;
+  let getValue = searchWord.value;
   for (let i = 0; i < users.length; i++) {
     let index = users[i].employee_name.indexOf(getValue);
     //値がtrueだった場合
@@ -368,7 +368,7 @@ async function search() {
       <tr><th>住所:</th><td>${users[i].address}</td></tr>
       <tr><th>電話番号:</th><td>${users[i].phone_number}</td></tr>
       </table>
-  <button class="edit_btn off_edit">編集</button>
+  <button class="editBtn offEdit">編集</button>
       </div>
       `;
       contents.insertAdjacentHTML("beforeend", flex);
@@ -382,76 +382,76 @@ async function search() {
 // ★flexの何番目のtableのtdをテキストボックスに変更
       // class取得→td生成→置き換えの流れをメソッドで
 
-// e（.edit_btn）がクリックされたとき
+// e（.editBtn）がクリックされたとき
 document.addEventListener("click", function (e) {
   async function edit() {
     const users = await callApi();
-    //複数のボタンの中から選ばれクリックされた一つ e.target ＝ .edit_Btn
-    const t = e.target.closest(".edit_btn");
-    //tがnull以外の場合（クリックされたのが.edit_btnのどれかの時）
+    //複数のボタンの中から選ばれクリックされた一つ e.target ＝ .editBtn
+    const t = e.target.closest(".editBtn");
+    //tがnull以外の場合（クリックされたのが.editBtnのどれかの時）
     let btn = document.getElementById("btn");
-    if (t !== null && btn.classList.contains("off_edit")) {
-      //初回クリックで.off_editから.on_editに
-      btn.classList.replace("off_edit", "on_edit");
-      //クリックされた.edit_btnのインデックス番号を返す
-      const index = [...document.querySelectorAll(".edit_btn")].indexOf(t);
+    if (t !== null && btn.classList.contains("offEdit")) {
+      //初回クリックで.offEditから.onEditに
+      btn.classList.replace("offEdit", "onEdit");
+      //クリックされた.editBtnのインデックス番号を返す
+      const index = [...document.querySelectorAll(".editBtn")].indexOf(t);
       //indexの親要素＝flexからたどる
       let parent = t.parentNode;
       //テキストボックス状のリスト追加
       let td = parent.querySelectorAll(".td");
       for (let num = 0; num < td.length; num++) {
         // // //社員名
-        function to_input(num,what) {
+        function changeToInput(num,what) {
         let tds = document.createElement("td");
         tds.innerHTML = `<input class="inputValue" value="${what}">`;
         td[num].replaceWith(tds);
         }
         // //社員名
-        to_input(0,users[index].employee_name);
+        changeToInput(0,users[index].employee_name);
         // //ふりがな
-        to_input(1,users[index].furigana);
+        changeToInput(1,users[index].furigana);
         // //入社日
-        to_input(2,users[index].hire_date);
+        changeToInput(2,users[index].hire_date);
         // //所属部署
-        to_input(3,users[index].department);
+        changeToInput(3,users[index].department);
         // //誕生日
-        to_input(4,users[index].date_of_birth);
+        changeToInput(4,users[index].date_of_birth);
         // //年齢
-        to_input(5,users[index].age);
+        changeToInput(5,users[index].age);
         // //住所
-        to_input(6,users[index].address);
+        changeToInput(6,users[index].address);
         // // 電話
-        to_input(7,users[index].phone_number);
+        changeToInput(7,users[index].phone_number);
       }
-    } else if (t !== null && btn.classList.contains("on_edit")) {
-      //２回目のクリックで.on_editから.off_editに（編集完了）
-      btn.classList.replace("on_edit", "off_edit");
+    } else if (t !== null && btn.classList.contains("onEdit")) {
+      //２回目のクリックで.onEditから.offEditに（編集完了）
+      btn.classList.replace("onEdit", "offEdit");
       //indexの親要素＝flexからたどる
       let parent = t.parentNode;
       let inputValue = parent.querySelectorAll(".inputValue");
       for (let i = 0; i < inputValue.length; i++) {
-        function totd(num) {
+        function changeToTd() {
           let tds = document.createElement("td");
           tds.classList.add("td");
           tds.innerHTML = `${inputValue[i].value}`;
           inputValue[i].replaceWith(tds);
         }
         // 社員名
-        totd(0);
+        changeToTd(0);
         //フリガナ
-        totd(1);
+        changeToTd(1);
         //入社日
-        totd(2);
+        changeToTd(2);
         //所属部署
-        totd(3);
+        changeToTd(3);
         //誕生日
-        totd(4);
+        changeToTd(4);
         //年齢
-        totd(5);
+        changeToTd(5);
         //住所
-        totd(6);
+        changeToTd(6);
         //電話番号
-        totd(7);
+        changeToTd(7);
       }
     }
   }
