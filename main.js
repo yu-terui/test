@@ -232,16 +232,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
       flex += `
 <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
 <table id="table1">
-<tr><th>社員名:</th><td id="td1">${users[i].employee_name}</td></tr>
-<tr><th></th><td id="td2">${users[i].furigana}</td></tr>
-<tr><th>入社日:</th><td id="td3">${users[i].hire_date}</td></tr>
-<tr><th>所属部署:</th><td id="td4">${users[i].department}</td></tr>
+<tr><th>社員名:</th><td class="td">${users[i].employee_name}</td></tr>
+<tr><th></th><td class="td">${users[i].furigana}</td></tr>
+<tr><th>入社日:</th><td class="td">${users[i].hire_date}</td></tr>
+<tr><th>所属部署:</th><td class="td">${users[i].department}</td></tr>
 </table>
 <table id="table2">
-<tr><th>誕生日:</th><td id="td5">${users[i].date_of_birth}</td></tr>
-<tr><th>年齢:</th><td id="td6">${users[i].age}歳</td></tr>
-<tr><th>住所:</th><td id="td7">${users[i].address}</td></tr>
-<tr><th>電話番号:</th><td id="td8">${users[i].phone_number}</td></tr>
+<tr><th>誕生日:</th><td class="td">${users[i].date_of_birth}</td></tr>
+<tr><th>年齢:</th><td class="td">${users[i].age}歳</td></tr>
+<tr><th>住所:</th><td class="td">${users[i].address}</td></tr>
+<tr><th>電話番号:</th><td class="td">${users[i].phone_number}</td></tr>
 </table>
 <button id="btn" class="edit_btn off_edit">編集</button>
 </div>
@@ -328,7 +328,8 @@ async function sort() {
     for (let i = 0; i < users.length; i++) {
       insert(i);
     }
-  }else{}
+  } else {
+  }
 }
 
 //絞り込み機能
@@ -379,6 +380,7 @@ async function search() {
 //編集完了後もう一度ボタンを押すと、変更した内容が反映される =新しい値を取得、反映
 //元のテキストの状態に戻る→tdに戻す
 // ★flexの何番目のtableのtdをテキストボックスに変更
+      // class取得→td生成→置き換えの流れをメソッドで
 
 // e（.edit_btn）がクリックされたとき
 document.addEventListener("click", function (e) {
@@ -389,116 +391,68 @@ document.addEventListener("click", function (e) {
     //tがnull以外の場合（クリックされたのが.edit_btnのどれかの時）
     let btn = document.getElementById("btn");
     if (t !== null && btn.classList.contains("off_edit")) {
+      //初回クリックで.off_editから.on_editに
+      btn.classList.replace("off_edit", "on_edit");
       //クリックされた.edit_btnのインデックス番号を返す
       const index = [...document.querySelectorAll(".edit_btn")].indexOf(t);
-      //(((t.velueにするとtrue/falseで返ってくる！)))
-      let parent = t.parentNode; //indexの親要素＝flex
+      //indexの親要素＝flexからたどる
+      let parent = t.parentNode;
       //テキストボックス状のリスト追加
-      let td1 = parent.querySelector("#td1");
-      let td2 = parent.querySelector("#td2");
-      let td3 = parent.querySelector("#td3");
-      let td4 = parent.querySelector("#td4");
-      let td5 = parent.querySelector("#td5");
-      let td6 = parent.querySelector("#td6");
-      let td7 = parent.querySelector("#td7");
-      let td8 = parent.querySelector("#td8");
-      let tds1 = document.createElement("td");
-      let tds2 = document.createElement("td");
-      let tds3 = document.createElement("td");
-      let tds4 = document.createElement("td");
-      let tds5 = document.createElement("td");
-      let tds6 = document.createElement("td");
-      let tds7 = document.createElement("td");
-      let tds8 = document.createElement("td");
-      let input = document.createElement("input");
-      //社員名
-      tds1.innerHTML = `<input id="nameValue" value="${users[index].employee_name}">`;
-      td1.replaceWith(tds1);
-      //ふりがな
-      tds2.innerHTML = `<input id="furiganaValue" value="${users[index].furigana}">`;
-      td2.replaceWith(tds2);
-      //入社日
-      tds3.innerHTML = `<input id="dateValue" value="${users[index].hire_date}">`;
-      td3.replaceWith(tds3);
-      //所属部署
-      tds4.innerHTML = `<input id="departmentValue" value="${users[index].department}">`;
-      td4.replaceWith(tds4);
-      //誕生日
-      tds5.innerHTML = `<input id="birthdayValue" value="${users[index].date_of_birth}">`;
-      td5.replaceWith(tds5);
-      //年齢
-      tds6.innerHTML = `<input id="ageValue" value="${users[index].age}歳">`;
-      td6.replaceWith(tds6);
-      //住所
-      tds7.innerHTML = `<input id="addressValue" value="${users[index].address}">`;
-      td7.replaceWith(tds7);
-      //電話番号
-      tds8.innerHTML = `<input id="phoneValue" value="${users[index].phone_number}">`;
-      td8.replaceWith(tds8);
-      //テキストボックス内の値を取得
-      let nameValue = document.getElementById("nameValue");
-      let furiganaValue = document.getElementById("furiganaValue");
-      let dateValue = document.getElementById("dateValue");
-      let departmentValue = document.getElementById("departmentValue");
-      let birthdayValue = document.getElementById("birthdayValue");
-      let ageValue = document.getElementById("ageValue");
-      let addressValue = document.getElementById("addressValue");
-      let phoneValue = document.getElementById("phoneValue");
-      //初回クリックで.off_editから.on_editに
-      btn.classList.replace("off_edit","on_edit");
+      let td = parent.querySelectorAll(".td");
+      for (let num = 0; num < td.length; num++) {
+        // // //社員名
+        function to_input(num,what) {
+        let tds = document.createElement("td");
+        tds.innerHTML = `<input class="inputValue" value="${what}">`;
+        td[num].replaceWith(tds);
+        }
+        // //社員名
+        to_input(0,users[index].employee_name);
+        // //ふりがな
+        to_input(1,users[index].furigana);
+        // //入社日
+        to_input(2,users[index].hire_date);
+        // //所属部署
+        to_input(3,users[index].department);
+        // //誕生日
+        to_input(4,users[index].date_of_birth);
+        // //年齢
+        to_input(5,users[index].age);
+        // //住所
+        to_input(6,users[index].address);
+        // // 電話
+        to_input(7,users[index].phone_number);
+      }
     } else if (t !== null && btn.classList.contains("on_edit")) {
-      let parent = t.parentNode; //indexの親要素＝flex
-      let input1 = parent.querySelector("#nameValue");
-      let input2 = parent.querySelector("#furiganaValue");
-      let input3 = parent.querySelector("#dateValue");
-      let input4 = parent.querySelector("#departmentValue");
-      let input5 = parent.querySelector("#birthdayValue");
-      let input6 = parent.querySelector("#ageValue");
-      let input7 = parent.querySelector("#addressValue");
-      let input8 = parent.querySelector("#phoneValue");
-      let tds1 = document.createElement("td");
-      tds1.id = "td1";
-      let tds2 = document.createElement("td");
-      tds2.id = "td2";
-      let tds3 = document.createElement("td");
-      tds3.id = "td3";
-      let tds4 = document.createElement("td");
-      tds4.id = "td4";
-      let tds5 = document.createElement("td");
-      tds5.id = "td5";
-      let tds6 = document.createElement("td");
-      tds6.id = "td6";
-      let tds7 = document.createElement("td");
-      tds7.id = "td7";
-      let tds8 = document.createElement("td");
-      tds8.id = "td8";
-      let input = document.createElement("input");
-      //社員名
-      tds1.innerHTML = `${nameValue.value}`;
-      input1.replaceWith(tds1);
-      //ふりがな
-      tds2.innerHTML = `${furiganaValue.value}`;
-      input2.replaceWith(tds2);
-      //入社日
-      tds3.innerHTML = `${dateValue.value}`;
-      input3.replaceWith(tds3);
-      //所属部署
-      tds4.innerHTML = `${departmentValue.value}`;
-      input4.replaceWith(tds4);
-      //誕生日
-      tds5.innerHTML = `${birthdayValue.value}`;
-      input5.replaceWith(tds5);
-      //年齢
-      tds6.innerHTML = `${ageValue.value}`;
-      input6.replaceWith(tds6);
-      //住所
-      tds7.innerHTML = `${addressValue.value}`;
-      input7.replaceWith(tds7);
-      //電話番号
-      tds8.innerHTML = `${phoneValue.value}`;
-      input8.replaceWith(tds8);
       //２回目のクリックで.on_editから.off_editに（編集完了）
-      btn.classList.replace("on_edit","off_edit");
+      btn.classList.replace("on_edit", "off_edit");
+      //indexの親要素＝flexからたどる
+      let parent = t.parentNode;
+      let inputValue = parent.querySelectorAll(".inputValue");
+      for (let i = 0; i < inputValue.length; i++) {
+        function totd(num) {
+          let tds = document.createElement("td");
+          tds.classList.add("td");
+          tds.innerHTML = `${inputValue[i].value}`;
+          inputValue[i].replaceWith(tds);
+        }
+        // 社員名
+        totd(0);
+        //フリガナ
+        totd(1);
+        //入社日
+        totd(2);
+        //所属部署
+        totd(3);
+        //誕生日
+        totd(4);
+        //年齢
+        totd(5);
+        //住所
+        totd(6);
+        //電話番号
+        totd(7);
+      }
     }
   }
   edit();
