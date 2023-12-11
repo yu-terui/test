@@ -19,23 +19,32 @@ p {
 th {
   font-weight: normal;
 }
-#select,#search{
+#select,
+#search {
   text-align: center;
   margin: 10px;
 }
 #select select,
-#search input{
-  width:200px;
+#search input,
+.flex input {
+  width: 200px;
   padding: 10px;
 }
-#select button,
-#form #register_btn,
-#search #search_btn {
+@media screen and (max-width: 768px) {
+  #select select,
+  #search input {
+    width: 50%;
+  }
+}
+button {
   padding: 10px 20px;
   color: #fff;
   background: seagreen;
   border: 1px solid #ccc;
   border-radius: 3px;
+}
+.editBtn{
+  height:50%;
 }
 .members_name {
   font-weight: bold;
