@@ -9,7 +9,7 @@
     </head>
     <body>
         <div id="select">
-            <select name="select_sort" id="select_sort">
+            <select name="selectsSort" id="selectsSort">
                 <option value="" selected>選択してください</option>
                 <option value="name_asc">名前・昇順</option>
                 <option value="name_desc">名前・降順</option>
@@ -19,8 +19,9 @@
             <button id="sortBtn">実行</button>
         </div>
         <div id="search">
-            <input type="text" id="searchWord" placeholder="検索ワード">
+            <input type="text" id="searchWord" placeholder="社員名を検索">
             <button id="searchBtn">検索</button>
+            <p id="searchText"></p>
         </div>
         <div class="container">
             <!-- 福岡 -->
@@ -155,20 +156,22 @@
                     </tr>
                 </table>
             </div> -->
-                <div id="contents">
-                    <!-- <p id="icon"></p>
-                    <table id="table1"> -->
-                        <!-- name -->
-                        <!-- hiragana -->
-                        <!-- date -->
-                        <!-- department -->
-                    <!-- </table>
-                    <table id="table2"> -->
-                        <!-- birthday -->
-                        <!-- age -->
-                        <!-- address -->
-                        <!-- number -->
-                    <!-- </table> -->
+            <div id="contents">
+            </div>
+            <div id="newMember">
+                <p id="newMember_icon"></p>
+                <table id="newMember_table1">
+                    <!-- name -->
+                    <!-- hiragana -->
+                    <!-- date -->
+                    <!-- department -->
+                </table>
+                <table id="newMember_table2">
+                    <!-- birthday -->
+                    <!-- age -->
+                    <!-- address -->
+                    <!-- number -->
+                </table>
             </div>
             <div id="form">
                 <p id="form_head">社員新規登録</p>
