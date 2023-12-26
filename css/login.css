@@ -42,8 +42,12 @@ a {
   border: 1px solid #ccc;
   border-radius: 3px;
 }
+#login_btn:hover{
+  opacity: .7;
+}
 #login_btn a {
   color: white;
   display: block;
   padding:10px 20px;
+  text-decoration: none;
 }

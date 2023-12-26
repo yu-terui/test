@@ -16,6 +16,12 @@ p {
   padding: 10px;
   border-top: 1px solid #ccc;
 }
+#newMember{
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
 th {
   font-weight: normal;
 }
@@ -42,6 +48,9 @@ button {
   background: seagreen;
   border: 1px solid #ccc;
   border-radius: 3px;
+}
+button:hover{
+  opacity: .7;
 }
 .editBtn{
   height:50%;
@@ -72,7 +81,4 @@ button {
   width: 100%;
   border: 1px solid #333;
   border-radius: 3px;
-}
-#form #register_btn:hover {
-  opacity: 0.7;
 }
