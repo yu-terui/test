@@ -737,3 +737,4 @@ if (document.getElementById("form_text_name") != null) {
     edit();
   });
 }
+
