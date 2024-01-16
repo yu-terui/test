@@ -10,8 +10,8 @@ if (document.getElementById("login_btn") != null) {
 
   login_btn.addEventListener("click", function (event) {
     let id_value = id_box.value;
-    if (id_value.match(/[^a-zA-Z0-9!-/:-@¥[-`{-~]/)) {
-      id_text.textContent = "IDは半角英数字記号のみで記入して下さい";
+    if (id_value.match(/[^a-zA-Z0-9]/)) {
+      id_text.textContent = "IDは半角英数字のみで記入して下さい"; //修正済み（ログイン単体No2）
       id_text.style.color = "#f00";
       id_box.style.borderColor = "#f00";
       event.preventDefault();
@@ -37,7 +37,7 @@ if (document.getElementById("login_btn") != null) {
       password_box.style.borderColor = "#f00";
       event.preventDefault();
     } else {
-      id_text.textContent = "";
+      password.textContent = ""; //修正済み（ログイン結合No1）
       password_box.style.borderColor = "#333";
     }
   });
@@ -86,11 +86,19 @@ if (document.getElementById("form_text_name") != null) {
   //バリデーションチェック
   // 登録ボタンをクリック→バリデーション
   register_btn.addEventListener("click", function (event) {
+    //～～～～～～～～～～～
+    //空欄エラー 修正済み（社員一覧単体No7）ここから
+    //空欄エラー 修正済み（社員一覧結合No4）ここから
     //名前
     let input_name = document.getElementById("form_input_name");
     let value_name = input_name.value;
     if (value_name.match(/[0-9!-/:-@¥[-`{-~]/)) {
       text_name.textContent = "記号・数字を含めないでください。";
+      text_name.style.color = "#f00";
+      input_name.style.borderColor = "#f00";
+      event.preventDefault();
+    } else if (!value_name) {
+      text_name.textContent = "必須項目です";
       text_name.style.color = "#f00";
       input_name.style.borderColor = "#f00";
       event.preventDefault();
@@ -103,6 +111,11 @@ if (document.getElementById("form_text_name") != null) {
     let value_hiragana = input_hiragana.value;
     if (value_hiragana.match(/^[^ぁ-ん]+$/)) {
       text_hiragana.textContent = "ひらがなのみを入力してください。";
+      text_hiragana.style.color = "#f00";
+      input_hiragana.style.borderColor = "#f00";
+      event.preventDefault();
+    } else if (!value_hiragana) {
+      text_hiragana.textContent = "必須項目です";
       text_hiragana.style.color = "#f00";
       input_hiragana.style.borderColor = "#f00";
       event.preventDefault();
@@ -126,6 +139,11 @@ if (document.getElementById("form_text_name") != null) {
       text_department.style.color = "#f00";
       input_department.style.borderColor = "#f00";
       event.preventDefault();
+    } else if (!value_department) {
+      text_department.textContent = "必須項目です";
+      text_department.style.color = "#f00";
+      input_department.style.borderColor = "#f00";
+      event.preventDefault();
     } else {
       text_department.textContent = "";
       input_department.style.borderColor = "#333";
@@ -138,6 +156,11 @@ if (document.getElementById("form_text_name") != null) {
       text_age.style.color = "#f00";
       input_age.style.borderColor = "#f00";
       event.preventDefault();
+    } else if (!value_age) {
+      text_age.textContent = "必須項目です";
+      text_age.style.color = "#f00";
+      input_age.style.borderColor = "#f00";
+      event.preventDefault();
     } else {
       text_age.textContent = "";
       input_age.style.borderColor = "#333";
@@ -145,6 +168,15 @@ if (document.getElementById("form_text_name") != null) {
     //住所
     let input_address = document.getElementById("form_input_address");
     let value_address = input_address.value;
+    if (!value_address) {
+      text_address.textContent = "必須項目です";
+      text_address.style.color = "#f00";
+      input_address.style.borderColor = "#f00";
+      event.preventDefault();
+    } else {
+      text_address.textContent = "";
+      input_address.style.borderColor = "#333";
+    }
     //電話番号
     let input_number = document.getElementById("form_input_number");
     let value_number = input_number.value;
@@ -153,10 +185,18 @@ if (document.getElementById("form_text_name") != null) {
       text_number.style.color = "#f00";
       input_number.style.borderColor = "#f00";
       event.preventDefault();
+    } else if (!value_number) {
+      text_number.textContent = "必須項目です";
+      text_number.style.color = "#f00";
+      input_number.style.borderColor = "#f00";
+      event.preventDefault();
     } else {
       text_number.textContent = "";
       input_number.style.borderColor = "#333";
     }
+    //空欄エラー 修正済み（社員一覧単体No7）ここまで
+    //空欄エラー 修正済み（社員一覧結合No4）ここまで
+    //～～～～～～～～～～～
 
     //新規情報追加
     // 登録ボタンをクリック→リストに情報を追加
@@ -317,6 +357,42 @@ if (document.getElementById("form_text_name") != null) {
   `;
       contents.insertAdjacentHTML("beforeend", flex);
     }
+    //～～～～～～～～～～～
+    //修正済み（社員一覧単体No1）ここから
+    //「選択してください」のままの場合
+    if (select.selectedIndex == 0) {
+      async function d() {
+        const users = await callApi();
+        // デフォルト表示のリスト
+        for (let i = 0; i < users.length; i++) {
+          let contents = document.getElementById("contents");
+          //リスト追加
+          let flex = `<div class="flex">`;
+          flex += `
+  <p id="icon"><img src="./img/icon.png" width="200" height="200" alt="アイコン画像"></p>
+  <table id="table1">
+  <tr><th>社員名:</th><td class="td">${users[i].employee_name}</td></tr>
+  <tr><th></th><td class="td">${users[i].furigana}</td></tr>
+  <tr><th>入社日:</th><td class="td">${users[i].hire_date}</td></tr>
+  <tr><th>所属部署:</th><td class="td">${users[i].department}</td></tr>
+  </table>
+  <table id="table2">
+  <tr><th>誕生日:</th><td class="td">${users[i].date_of_birth}</td></tr>
+  <tr><th>年齢:</th><td class="td">${users[i].age}歳</td></tr>
+  <tr><th>住所:</th><td class="td">${users[i].address}</td></tr>
+  <tr><th>電話番号:</th><td class="td">${users[i].phone_number}</td></tr>
+  </table>
+  <button id="btn" class="editBtn offEdit">編集</button>
+  </div>
+  `;
+          contents.insertAdjacentHTML("beforeend", flex);
+        }
+        let contents = document.getElementById("contents");
+      }
+      d();
+    }
+    //修正済み（社員一覧単体No1）ここまで
+    //～～～～～～～～～～～
     // 名前・昇順
     // １．if分で昇順降順の判定
     if (select.selectedIndex == 1) {
@@ -357,7 +433,6 @@ if (document.getElementById("form_text_name") != null) {
 
   //絞り込み機能
   //searchBtnを押したとき、selectの値に応じて並び替え
-  let searchWord = document.getElementById("searchWord");
   let searchBtn = document.getElementById("searchBtn");
   searchBtn.addEventListener("click", search);
   //検索ボタンを押したとき
@@ -369,6 +444,7 @@ if (document.getElementById("form_text_name") != null) {
       contents.removeChild(contents.firstChild);
     }
     //値の一部が配列内のオブジェクトと一致した場合
+    let searchWord = document.getElementById("searchWord");
     let getValue = searchWord.value;
     let searchText = document.getElementById("searchText");
     for (let i = 0; i < users.length; i++) {
@@ -397,7 +473,37 @@ if (document.getElementById("form_text_name") != null) {
     `;
         contents.insertAdjacentHTML("beforeend", flex);
       }
+      // else if (index === -1) {
+      //   searchText.textContent = "一致する結果がありません";
+      //   searchText.style.color = "#F00";
+      // }
+      // else {
+        // searchText.textContent = "一致する結果がありません";
+        // searchText.style.color = "#F00";
+      // }
     }
+    //対応未完了（結合No1）どっちでもテキスト出てくる
+    for (let i = 0; i < users.length; i++) {
+      let index = users[i].employee_name.indexOf(getValue);
+      if (index === -1) {
+        searchText.textContent = "一致する結果がありません";
+        searchText.style.color = "#F00";
+      } else {
+        searchText.textContent = "";
+        searchText.style.color = "#333";
+        console.log(index);
+      }
+    }
+    //～～～～～～～～～～～
+    // //修正済み（社員一覧単体No2）ここから
+    if (getValue.length >= 101) {
+      searchText.textContent = "文字数の上限をオーバーしています";
+      searchText.style.color = "#F00";
+    } else {}
+    // //修正済み（社員一覧単体No2）ここまで
+    //～～～～～～～～～～～
+  }
+
   // 編集機能
   // ◎ボタンをクリックしたら、テキストボックスに置き換わる
   //編集完了後もう一度ボタンを押すと、変更した内容が反映される =新しい値を取得、反映
@@ -453,6 +559,145 @@ if (document.getElementById("form_text_name") != null) {
         let parent = t.parentNode;
         let inputValue = parent.querySelectorAll(".inputValue");
         let alertText = parent.querySelectorAll(".alertText");
+        //～～～～～～～～～～
+        //空欄エラー 修正済み（社員一覧単体No3）ここから
+        //空欄エラー 修正済み（社員一覧結合No2）ここから
+        for (let i = 0; i < inputValue.length; i++) {
+          if (!inputValue[i].value) {
+            alertText[i].textContent = "必須項目です";
+            alertText[i].style.color = "#f00";
+            inputValue[i].style.borderColor = "#f00";
+            return;
+          } else {
+            alertText[i].textContent = "";
+            inputValue[i].style.borderColor = "#333";
+          }
+        }
+        //修正済み（社員一覧単体No3）ここまで
+        //修正済み（社員一覧結合No2）ここまで
+        //～～～～～～～～～～
+
+        //～～～～～～～～～～
+        //値が適切でない場合 
+        //修正済み（社員一覧単体No4）ここから
+        //修正済み（社員一覧結合No3）ここから
+        //社員名
+        for (let i = 0; i < inputValue.length; i++) {
+          let inputLength0 = inputValue[0].value;
+          if (inputValue[0].value.match(/[0-9!-/:-@¥[-`{-~]/)) {
+            alertText[0].textContent = "記号・数字を含めないでください。";
+            alertText[0].style.color = "#f00";
+            inputValue[0].style.borderColor = "#f00";
+            return;
+          }
+          //～～～～～～～～～～
+          //修正済み（単体No5）ここから
+          else if (inputLength0.length >= 101) {
+            alertText[0].textContent = "文字数の上限をオーバーしています";
+            alertText[0].style.color = "#F00";
+            inputValue[0].style.borderColor = "#f00";
+            return;
+          }
+          //修正済み（単体No5）ここまで
+          //～～～～～～～～～～
+          else {
+            alertText[0].textContent = "";
+            inputValue[0].style.borderColor = "#333";
+          }
+        }
+        //ひらがな
+        for (let i = 0; i < inputValue.length; i++) {
+          let inputLength1 = inputValue[1].value;
+          if (inputValue[1].value.match(/^[^ぁ-ん]+$/)) {
+            alertText[1].textContent = "ひらがなのみを入力してください。";
+            alertText[1].style.color = "#f00";
+            inputValue[1].style.borderColor = "#f00";
+            return;
+          }
+          //～～～～～～～～～～
+          //修正済み（単体No6）ここから
+          else if (inputLength1.length >= 101) {
+            alertText[1].textContent = "文字数の上限をオーバーしています";
+            alertText[1].style.color = "#F00";
+            inputValue[1].style.borderColor = "#f00";
+            return;
+          }
+          //修正済み（単体No6）ここまで
+          //～～～～～～～～～～
+          else {
+            alertText[1].textContent = "";
+            inputValue[1].style.borderColor = "#333";
+          }
+        }
+        //入社日
+        for (let i = 0; i < inputValue.length; i++) {
+          if (
+            inputValue[2].value.match(
+              /^[0-9]{4}年(0[1-9]|1[0-2]|[1-9])月(0[1-9]|[12][0-9]|3[01]|[1-9])日$/
+            )
+          ) {
+          } else {
+            alertText[2].textContent =
+              "yyyy年mm月dd日の形式で入力してください。";
+            alertText[2].style.color = "#f00";
+            inputValue[2].style.borderColor = "#f00";
+            return;
+          }
+        }
+        // 所属部署
+        for (let i = 0; i < inputValue.length; i++) {
+          if (inputValue[3].value.match(/[0-9!-/:-@¥[-`{-~]/)) {
+            alertText[3].textContent = "記号・数字を含めないでください。";
+            alertText[3].style.color = "#f00";
+            inputValue[3].style.borderColor = "#f00";
+            return;
+          } else {
+            alertText[3].textContent = "";
+            inputValue[3].style.borderColor = "#333";
+          }
+        }
+        //生年月日
+        for (let i = 0; i < inputValue.length; i++) {
+          if (
+            inputValue[4].value.match(
+              /^[0-9]{4}年(0[1-9]|1[0-2]|[1-9])月(0[1-9]|[12][0-9]|3[01]|[1-9])日$/
+            )
+          ) {
+          } else {
+            alertText[4].textContent =
+              "yyyy年mm月dd日の形式で入力してください。";
+            alertText[4].style.color = "#f00";
+            inputValue[4].style.borderColor = "#f00";
+            return;
+          }
+        }
+        //年齢
+        for (let i = 0; i < inputValue.length; i++) {
+          if (inputValue[5].value.match(/[^0-9]/)) {
+            alertText[5].textContent = "数字のみを入力してください。";
+            alertText[5].style.color = "#f00";
+            inputValue[5].style.borderColor = "#f00";
+            return;
+          } else {
+            alertText[5].textContent = "";
+            inputValue[5].style.borderColor = "#333";
+          }
+        }
+        //電話番号
+        for (let i = 0; i < inputValue.length; i++) {
+          if (inputValue[7].value.match(/[^0\d{2,3}-\d{1,4}-\d{4}$]/)) {
+            alertText[7].textContent = "数字、ハイフンのみを入力してください。";
+            alertText[7].style.color = "#f00";
+            inputValue[7].style.borderColor = "#f00";
+            return;
+          } else {
+            alertText[7].textContent = "";
+            inputValue[7].style.borderColor = "#333";
+          }
+        }
+        //修正済み（社員一覧単体No4）ここまで
+        //修正済み（社員一覧結合No3）ここまで
+        //～～～～～～～～～～
         //値が適切な場合
         for (let i = 0; i < inputValue.length; i++) {
           function changeToTd() {
@@ -470,9 +715,26 @@ if (document.getElementById("form_text_name") != null) {
           changeToTd(5);
           changeToTd(6);
           changeToTd(7);
+          // 社員名
+          // validate(0,  "記号・数字を含めないでください。");
+          // //フリガナ
+          // validate(1,  "記号・数字を含めないでください。");
+          // // //入社日
+          // validate(2,  "記号・数字を含めないでください。");
+          // // //所属部署
+          // validate(3,  "記号・数字を含めないでください。");
+          // // //誕生日
+          // validate(4,  "記号・数字を含めないでください。");
+          // // //年齢
+          // validate(5,  "記号・数字を含めないでください。");
+          // // //住所
+          // validate(6,  "記号・数字を含めないでください。");
+          // // //電話番号
+          //   validate(7, "記号・数字を含めないでください。");
         }
       }
     }
     edit();
   });
 }
+
